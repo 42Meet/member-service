@@ -13,7 +13,6 @@ spring:
   profiles:
     include: credentials
 
-
 eureka:
   client:
     register-with-eureka: true

@@ -12,12 +12,16 @@ public class MemberDto {
 
     private Long id;
     private String username;
+    private String image_url;
+    private String email;
     private String role;
 
     public Member toEntity(MemberDto memberDto){
         Member build = Member.builder()
                 .id(memberDto.getId())
                 .username(memberDto.getUsername())
+                .image_url(memberDto.getImage_url())
+                .email(memberDto.getEmail())
                 .role(memberDto.getRole())
                 .build();
         return build;

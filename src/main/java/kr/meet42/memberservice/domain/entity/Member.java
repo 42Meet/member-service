@@ -16,8 +16,14 @@ public class Member extends BaseEntity{
     @Column(name = "member_id")
     private Long id;
 
-    @Column(length = 20, nullable =false, unique = true)
+    @Column(length = 20, nullable = false, unique = true)
     private String username;
+
+    @Column(length = 50, nullable = false)
+    private String image_url;
+
+    @Column(length = 50, nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String role;
@@ -26,6 +32,8 @@ public class Member extends BaseEntity{
         MemberDto memberDto = MemberDto.builder()
                 .id(member.getId())
                 .username(member.getUsername())
+                .image_url(member.getImage_url())
+                .email(member.getEmail())
                 .role(member.getRole())
                 .build();
         return memberDto;
