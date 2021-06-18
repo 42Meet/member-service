@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/")
 public class MemberController {
 
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @GetMapping("/list")
     public ResponseEntity<List<MemberDto>> getMembers() {
@@ -33,7 +33,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/{username}/role")
     public ResponseEntity<String> getRole(@PathVariable("username") String username) {
         String memberRole = memberService.getRole(username);
         if (memberRole == null) {

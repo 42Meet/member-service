@@ -4,6 +4,7 @@ import kr.meet42.memberservice.domain.entity.Member;
 import kr.meet42.memberservice.domain.repository.MemberRepository;
 import kr.meet42.memberservice.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
@@ -30,10 +32,13 @@ public class MemberServiceImpl implements MemberService{
     public List<MemberDto> getMembers() {
         List<MemberDto> memberDtoList = new ArrayList<>();
         List<Member> memberList = memberRepository.findAll();
+        log.info(memberList.toString());
         for (Member m : memberList) {
             MemberDto memberDto = MemberDto.builder()
                     .id(m.getId())
                     .username(m.getUsername())
+                    .email(m.getEmail())
+                    .image_url(m.getImage_url())
                     .role(m.getRole())
                     .build();
             memberDtoList.add(memberDto);
@@ -59,6 +64,8 @@ public class MemberServiceImpl implements MemberService{
         }
         Member member = Member.builder()
                 .username(memberDto.getUsername())
+                .email(memberDto.getEmail())
+                .image_url(memberDto.getImage_url())
                 .role(userRole)
                 .build();
         memberRepository.save(member);
