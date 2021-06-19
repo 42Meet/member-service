@@ -11,8 +11,6 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -37,6 +35,7 @@ public class FtOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
             memberService.join(memberDto, "ROLE_USER");
         }
+
         return oAuth2User;
     }
 }
