@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -15,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/list")
+                .antMatchers("/login")
                 .authenticated();
 
         http.authorizeRequests()
@@ -27,9 +30,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();;
         http.logout();
         http.oauth2Login()
-            .successHandler(ftOAuth2SuccessHandler);
+                .loginPage("/oauth2/authorization/oauth42")
+                .redirectionEndpoint()
+                .and()
+                .successHandler(ftOAuth2SuccessHandler);
     }
 
     @Autowired
     private FtOAuth2SuccessHandler ftOAuth2SuccessHandler;
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("Authorization");
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
