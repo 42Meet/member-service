@@ -35,7 +35,6 @@ public class FtOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
             memberService.join(memberDto, "ROLE_USER");
         }
-
         return oAuth2User;
     }
 }

@@ -1,9 +1,35 @@
 package kr.meet42.memberservice.security;
 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-@Component
-public class FtOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class FtOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
+
+    private final JWTProvider jwtProvider;
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        try {
+            DefaultOAuth2User principal = (DefaultOAuth2User)authentication.getPrincipal();
+            Object login = principal.getAttributes().get("login");
+            response.addHeader("Authorization", jwtProvider.generateToken(login.toString()));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
+    }
 }
