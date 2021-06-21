@@ -3,6 +3,8 @@ package kr.meet42.memberservice.service;
 import kr.meet42.memberservice.domain.entity.Member;
 import kr.meet42.memberservice.domain.repository.MemberRepository;
 import kr.meet42.memberservice.dto.MemberDto;
+import kr.meet42.memberservice.dto.TokenDto;
+import kr.meet42.memberservice.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
+    private final JwtUtils jwtUtils;
 
     @Transactional
     public Member getMember(String username) {
@@ -32,7 +35,6 @@ public class MemberServiceImpl implements MemberService{
     public List<MemberDto> getMembers() {
         List<MemberDto> memberDtoList = new ArrayList<>();
         List<Member> memberList = memberRepository.findAll();
-        log.info(memberList.toString());
         for (Member m : memberList) {
             MemberDto memberDto = MemberDto.builder()
                     .id(m.getId())
@@ -40,6 +42,7 @@ public class MemberServiceImpl implements MemberService{
                     .email(m.getEmail())
                     .image_url(m.getImage_url())
                     .role(m.getRole())
+                    .refreshToken(m.getRefreshToken())
                     .build();
             memberDtoList.add(memberDto);
         }
@@ -70,5 +73,36 @@ public class MemberServiceImpl implements MemberService{
                 .build();
         memberRepository.save(member);
         return member.getUsername();
+    }
+
+    @Transactional
+    public void registerRefreshToken(String refreshToken, String username) {
+        Optional<Member> findMember = memberRepository.findByUsername(username);
+        findMember.ifPresent(member -> member.setRefreshToken(refreshToken));
+    }
+
+    @Transactional
+    public TokenDto verifyRefreshToken(String accessToken, String refreshToken) {
+        String userLogin = jwtUtils.extractFromToken(accessToken, "token.access-secret");
+        Optional<Member> findMember = memberRepository.findByUsername(userLogin);
+        if (findMember.isPresent()) {
+            Member member = findMember.get();
+            String storedRefreshToken = member.getRefreshToken();
+            if (storedRefreshToken.equals(refreshToken)) {
+                try {
+                    String newToken = jwtUtils.generateAccessToken(userLogin);
+                    return TokenDto.builder()
+                            .accessToken(newToken)
+                            .refreshToken(refreshToken)
+                            .build();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+        return null;
     }
 }
