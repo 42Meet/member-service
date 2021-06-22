@@ -28,3 +28,34 @@
   docker pull kangjm2/memberservice:1.0
   ```
 
+
+
+## 🔧 Tech Stack
+
+<img width="645" alt="tech-stack" src="https://user-images.githubusercontent.com/54574014/122851316-b3f23380-d349-11eb-8a9d-8081e90916fc.png">
+
+
+## 📕 디렉토리 구조
+
+```
+📁member-service
+└── 📁src
+    └──  📁main
+         ├── 📁java
+         │    ├── 📁config
+         │    ├── 📁controller
+         │    ├── 📁domain
+         │    ├── 📁dto  
+         │    ├── 📁security
+         │    └── 📁utils
+         └── 📁resources
+```
+
+## 👨‍👩‍👦‍👦 Author
+
+⭐️ **42seoul** ⭐️
+> 👳🏻‍♀️ [강재민](https://github.com/jaeminkang)<br />
+> 👨🏻‍💻 [심의석](https://github.com/simsulison)
+
+
+
