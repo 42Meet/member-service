@@ -21,4 +21,5 @@ eureka:
       defaultZone: http://15.164.85.227:8761/eureka
 
 token:
-  secret: sample
+  access-secret: sample
+  refresh-secret: sample

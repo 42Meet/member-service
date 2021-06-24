@@ -2,11 +2,14 @@ package kr.meet42.memberservice.controller;
 
 import kr.meet42.memberservice.domain.entity.Member;
 import kr.meet42.memberservice.dto.MemberDto;
+import kr.meet42.memberservice.dto.TokenDto;
 import kr.meet42.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -55,5 +58,21 @@ public class MemberController {
         if (memberService.join(memberDto, "ROLE_ADMIN") == null)
             return new ResponseEntity<>("이미 가입된 아이디 입니다.", HttpStatus.CONFLICT);
         return new ResponseEntity<>(memberDto.getUsername(), HttpStatus.OK);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenDto> verifyToken(HttpServletRequest request, HttpServletResponse response) {
+        String accessToken = request.getHeader("access-token");
+        String refreshToken = request.getHeader("refresh-token");
+        TokenDto tokenDto = memberService.verifyRefreshToken(accessToken, refreshToken);
+        if (tokenDto == null) {
+            try {
+                response.sendRedirect("15.164.85.227:8080/login");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter @Setter
 @Builder
 @AllArgsConstructor
-@ToString(of = {"id", "username", "role"})
+@ToString(of = {"id", "username", "image_url", "email", "role", "refreshToken"})
 public class Member extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,14 +28,17 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
+    private String refreshToken;
+
     public MemberDto toDto(Member member){
-        MemberDto memberDto = MemberDto.builder()
+        return MemberDto.builder()
                 .id(member.getId())
                 .username(member.getUsername())
                 .image_url(member.getImage_url())
                 .email(member.getEmail())
                 .role(member.getRole())
+                .refreshToken(member.getRefreshToken())
                 .build();
-        return memberDto;
     }
 }
