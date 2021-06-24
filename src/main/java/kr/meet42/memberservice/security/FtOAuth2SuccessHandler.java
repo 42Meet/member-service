@@ -25,7 +25,7 @@ public class FtOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
             DefaultOAuth2User principal = (DefaultOAuth2User)authentication.getPrincipal();
             Object login = principal.getAttributes().get("login");
             response.addHeader("Authorization", jwtProvider.generateToken(login.toString()));
-            response.sendRedirect("http://3.35.14.180/reservation");
+            response.sendRedirect("http://3.35.14.180/meeting/reservation");
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
