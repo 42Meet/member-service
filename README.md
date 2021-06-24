@@ -31,13 +31,13 @@
    ```
    docker run -d -p 8080:8080 --name member-service \
    -e "token.secret=my_secret_token" \
-   kangjm2/memberservice:1.0
+   kangjm2/member-service:1.0
    ```
 
 * DockerHub 이용시
 
   ```
-  docker pull kangjm2/memberservice:1.0
+  docker pull kangjm2/member-service:1.0
   ```
 
 <BR>
