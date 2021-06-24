@@ -34,3 +34,4 @@ out/
 *credentials.json
 *StoredCredential
 *.DS_Store
+/src/main/resources/application-credentials.yml

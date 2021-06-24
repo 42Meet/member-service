@@ -29,11 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().disable();
         http.csrf().disable();;
         http.logout();
+        http.cors();
         http.oauth2Login()
+                .successHandler(ftOAuth2SuccessHandler)
                 .loginPage("/oauth2/authorization/oauth42")
-                .redirectionEndpoint()
                 .and()
-                .successHandler(ftOAuth2SuccessHandler);
+                .cors();
     }
 
     @Autowired
@@ -42,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOrigin("http://3.35.14.180");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.addExposedHeader("Authorization");

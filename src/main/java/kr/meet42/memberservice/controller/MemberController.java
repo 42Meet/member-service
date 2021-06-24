@@ -61,18 +61,10 @@ public class MemberController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenDto> verifyToken(HttpServletRequest request, HttpServletResponse response) {
-        String accessToken = request.getHeader("access-token");
-        String refreshToken = request.getHeader("refresh-token");
-        TokenDto tokenDto = memberService.verifyRefreshToken(accessToken, refreshToken);
-        if (tokenDto == null) {
-            try {
-                response.sendRedirect("15.164.85.227:8080/login");
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
+    public ResponseEntity<TokenDto> refreshToken(@RequestBody TokenDto tokenDto) {
+        TokenDto getTokenDto = memberService.verifyRefreshToken(tokenDto);
+        if (getTokenDto == null)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
 }
