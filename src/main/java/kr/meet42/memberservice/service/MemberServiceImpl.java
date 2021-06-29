@@ -70,6 +70,7 @@ public class MemberServiceImpl implements MemberService{
                 .email(memberDto.getEmail())
                 .image_url(memberDto.getImage_url())
                 .role(userRole)
+                .refreshToken("default_refresh_token")
                 .build();
         memberRepository.save(member);
         return member.getUsername();
