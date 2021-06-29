@@ -14,6 +14,8 @@ spring:
     include: credentials
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -23,3 +25,8 @@ eureka:
 token:
   access-secret: sample
   refresh-secret: sample
+
+42meet:
+  server:
+    host: http://3.35.14.180
+    redirect: http://3.35.14.180/booking

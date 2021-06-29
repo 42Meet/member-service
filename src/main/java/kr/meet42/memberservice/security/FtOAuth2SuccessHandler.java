@@ -46,7 +46,7 @@ public class FtOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
             refreshCookie.setPath(env.getProperty("42meet.server.host"));
             response.addCookie(accessCookie);
             response.addCookie(refreshCookie);
-            response.sendRedirect(env.getProperty("42meet.server.host"));
+            response.sendRedirect(env.getProperty("42meet.server.redirect"));
         } catch (Exception ex) {
             log.error(ex.getMessage());
         }
