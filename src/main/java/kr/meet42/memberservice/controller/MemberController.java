@@ -5,6 +5,7 @@ import kr.meet42.memberservice.dto.MemberDto;
 import kr.meet42.memberservice.dto.TokenDto;
 import kr.meet42.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final Environment env;
 
     @GetMapping("/list")
     public ResponseEntity<List<MemberDto>> getMembers() {
@@ -67,7 +69,7 @@ public class MemberController {
         TokenDto tokenDto = memberService.verifyRefreshToken(accessToken, refreshToken);
         if (tokenDto == null) {
             try {
-                response.sendRedirect("15.164.85.227:8080/login");
+                response.sendRedirect(env.getProperty("42meet.server.login"));
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
