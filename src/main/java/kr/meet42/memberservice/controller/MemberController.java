@@ -9,8 +9,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -63,18 +61,10 @@ public class MemberController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenDto> verifyToken(HttpServletRequest request, HttpServletResponse response) {
-        String accessToken = request.getHeader("access-token");
-        String refreshToken = request.getHeader("refresh-token");
-        TokenDto tokenDto = memberService.verifyRefreshToken(accessToken, refreshToken);
-        if (tokenDto == null) {
-            try {
-                response.sendRedirect(env.getProperty("42meet.server.login"));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
+    public ResponseEntity<TokenDto> refreshToken(@RequestBody TokenDto tokenDto) {
+        TokenDto getTokenDto = memberService.verifyRefreshToken(tokenDto);
+        if (getTokenDto == null)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
 }
