@@ -18,5 +18,5 @@ public interface MemberService {
 
     void registerRefreshToken(String refreshToken, String username);
 
-    TokenDto verifyRefreshToken(TokenDto tokenDto);
+    TokenDto verifyRefreshToken(String accessToken, String refreshToken);
 }

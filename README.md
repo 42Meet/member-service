@@ -30,7 +30,7 @@
 
    ```
    docker run -d -p 8080:8080 --name member-service \
-   -e "token.secret=my_secret_token" \
+   -e token.secret=sample \
    --network 42meet \
    kangjm2/member-service:1.0
    ```

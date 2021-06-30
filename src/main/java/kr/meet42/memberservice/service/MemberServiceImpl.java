@@ -83,22 +83,21 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Transactional
-    public TokenDto verifyRefreshToken(TokenDto tokenDto) {
-        String refreshToken = tokenDto.getRefreshToken();
+    public TokenDto verifyRefreshToken(String accessToken, String refreshToken) {
         if (!jwtUtils.validateRefreshToken(refreshToken)) {
             return null;
         }
-        String userLogin = jwtUtils.extractFromToken(tokenDto.getAccessToken(), "token.access-secret");
+        String userLogin = jwtUtils.extractFromToken(accessToken, "token.access-secret");
         Optional<Member> findMember = memberRepository.findByUsername(userLogin);
         if (findMember.isPresent()) {
             Member member = findMember.get();
             String storedRefreshToken = member.getRefreshToken();
-            if (storedRefreshToken.equals(tokenDto.getRefreshToken())) {
+            if (storedRefreshToken.equals(refreshToken)) {
                 try {
                     String newToken = jwtUtils.generateAccessToken(userLogin);
                     return TokenDto.builder()
                             .accessToken(newToken)
-                            .refreshToken(tokenDto.getRefreshToken())
+                            .refreshToken(refreshToken)
                             .build();
                 } catch (Exception e) {
                     e.printStackTrace();

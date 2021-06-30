@@ -30,8 +30,7 @@ public class MemberController {
         Member member = memberService.getMember(username);
         if (member == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        else {
+        } else {
             return new ResponseEntity<>(member.toDto(member), HttpStatus.OK);
         }
     }
@@ -41,13 +40,12 @@ public class MemberController {
         String memberRole = memberService.getRole(username);
         if (memberRole == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        else
+        } else
             return new ResponseEntity<>(memberRole, HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto){
+    public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) {
         if (memberService.join(memberDto, "ROLE_USER") == null)
             return new ResponseEntity<>("이미 가입된 아이디 입니다.", HttpStatus.CONFLICT);
         return new ResponseEntity<>(memberDto.getUsername(), HttpStatus.OK);
@@ -61,10 +59,10 @@ public class MemberController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenDto> refreshToken(@RequestBody TokenDto tokenDto) {
-        TokenDto getTokenDto = memberService.verifyRefreshToken(tokenDto);
+    public ResponseEntity<TokenDto> refreshToken(@RequestParam String accessToken, @RequestParam String refreshToken) {
+        TokenDto getTokenDto = memberService.verifyRefreshToken(accessToken, refreshToken);
         if (getTokenDto == null)
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+        return new ResponseEntity<>(getTokenDto, HttpStatus.OK);
     }
 }
