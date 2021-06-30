@@ -5,11 +5,10 @@ import kr.meet42.memberservice.dto.MemberDto;
 import kr.meet42.memberservice.dto.TokenDto;
 import kr.meet42.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -18,6 +17,7 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final Environment env;
 
     @GetMapping("/list")
     public ResponseEntity<List<MemberDto>> getMembers() {

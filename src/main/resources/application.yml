@@ -34,5 +34,6 @@ token:
 
 42meet:
   server:
-    host: http://3.35.14.180
-    redirect: http://3.35.14.180/booking
+    host: http://42meet.kro.kr
+    login: http://42meet.kro.kr/login
+    redirect: http://42meet.kro.kr/booking
