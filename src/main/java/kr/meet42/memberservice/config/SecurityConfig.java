@@ -35,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().disable();
         http.csrf().disable();;
         http.logout();
-        http.cors();
         http.oauth2Login()
                 .successHandler(ftOAuth2SuccessHandler)
                 .loginPage("/oauth2/authorization/oauth42")
@@ -49,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin(env.getProperty("42meet.server.host"));
+        configuration.addAllowedOrigin(env.getProperty("42meet.server.test"));
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.addExposedHeader("access-token");

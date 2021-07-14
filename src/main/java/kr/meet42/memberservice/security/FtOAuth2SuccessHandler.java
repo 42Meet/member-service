@@ -41,9 +41,9 @@ public class FtOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandle
             Cookie accessCookie = new Cookie("access-token", tokenDto.getAccessToken());
             Cookie refreshCookie = new Cookie("refresh-token", tokenDto.getRefreshToken());
             accessCookie.setMaxAge(60*60);
-            accessCookie.setPath(env.getProperty("42meet.server.host"));
+            accessCookie.setPath("/");
             refreshCookie.setMaxAge(60*60);
-            refreshCookie.setPath(env.getProperty("42meet.server.host"));
+            refreshCookie.setPath("/");
             response.addCookie(accessCookie);
             response.addCookie(refreshCookie);
             response.sendRedirect(env.getProperty("42meet.server.redirect"));

@@ -36,4 +36,5 @@ token:
   server:
     host: http://42meet.kro.kr
     login: http://42meet.kro.kr/login
-    redirect: http://42meet.kro.kr/booking
+    redirect: http://42meet.kro.kr
+    test: http://localhost:3000
